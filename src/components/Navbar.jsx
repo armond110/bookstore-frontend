@@ -35,7 +35,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-ink text-parchment shadow-md">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4">
         <Link to="/" className="shrink-0 font-display text-2xl font-semibold tracking-tight" onClick={closeMobileMenu}>
-          Bookshop
+          Marginalia
         </Link>
 
         {/* barra di ricerca, visibile solo da schermo medio in su */}

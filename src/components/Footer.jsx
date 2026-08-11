@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row">
           <div>
-            <p className="font-display text-lg text-parchment">Bookshop</p>
+            <p className="font-display text-lg text-parchment">Marginalia</p>
             <p className="mt-1 max-w-xs text-parchment/60">
               A small shop for books worth writing in the margins of.
             </p>
@@ -41,7 +41,7 @@ export default function Footer() {
           </div>
         </div>
         <p className="mt-8 border-t border-parchment/10 pt-6 text-xs text-parchment/40">
-          © {new Date().getFullYear()} Bookshop. Built with React, Tailwind, Express &amp; MongoDB.
+          © {new Date().getFullYear()} Marginalia Books. Built with React, Tailwind, Express &amp; MongoDB.
         </p>
       </div>
     </footer>

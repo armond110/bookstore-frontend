@@ -130,9 +130,20 @@ export default function Admin() {
             className="focus-ring w-full rounded-lg border border-ink/15 px-4 py-2 text-sm file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-parchment"
           />
           <p className="mt-1 text-xs text-ink/40">
-            Scegli una foto dal tuo computer: viene salvata automaticamente nella cartella{" "}
-            <code>frontend/public/images</code>.
+            Scegli una foto dal tuo computer (funziona in locale). In produzione (es. Vercel) l'upload
+            da file non è disponibile: usa il campo qui sotto per incollare un URL esterno.
           </p>
+
+          {/* campo alternativo: URL esterno, sempre disponibile anche dove l'upload non funziona */}
+          <input
+            type="text"
+            name="coverImage"
+            placeholder="oppure incolla un URL immagine (https://...)"
+            value={form.coverImage}
+            onChange={handleChange}
+            className="focus-ring mt-2 w-full rounded-lg border border-ink/15 px-4 py-2 text-sm"
+          />
+
           {uploading && <p className="mt-1 text-xs text-ink/50">Caricamento in corso…</p>}
           {/* anteprima, si vede solo se c'è già un'immagine caricata o scelta prima */}
           {form.coverImage && !uploading && (
