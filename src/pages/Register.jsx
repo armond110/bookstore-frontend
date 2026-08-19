@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import api from "../api/axios";
 
 // pagina di registrazione nuovo utente
 export default function Register() {
-  const { register } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,14 +11,17 @@ export default function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // creo l'account e poi mando l'utente alla home
+  // creo l'account, ma NON faccio login automatico: mando l'utente alla
+  // pagina di login per farlo entrare lui con le sue credenziali nuove
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      await register(name, email, password);
-      navigate("/");
+      await api.post("/auth/register", { name, email, password });
+      // passo "registered=1" nell'url così la pagina di login può mostrare
+      // un messaggio tipo "account creato, ora accedi"
+      navigate("/login?registered=1");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {

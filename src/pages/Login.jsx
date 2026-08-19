@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 // pagina di login
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // true se arrivo qui subito dopo essermi registrato
+  const justRegistered = searchParams.get("registered") === "1";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,6 +33,12 @@ export default function Login() {
   return (
     <div className="mx-auto max-w-sm px-4 py-20">
       <h1 className="font-display text-3xl font-semibold text-ink">Sign in</h1>
+
+      {justRegistered && (
+        <p className="mt-4 rounded-lg bg-spine-moss/15 px-4 py-2 text-sm text-spine-moss">
+          Account created — sign in with your new credentials.
+        </p>
+      )}
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <div>

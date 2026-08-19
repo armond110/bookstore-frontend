@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { useCart } from "../context/CartContext";
 
-// pagina di checkout, qui l'utente mette l'indirizzo e conferma l'ordine
-// (è un checkout finto, non c'è nessun pagamento vero)
+// pagina di checkout: l'utente mette l'indirizzo, poi viene mandato
+// alla pagina di pagamento di Stripe per pagare davvero con carta
 export default function Checkout() {
-  const { items, total, clearCart } = useCart();
-  const navigate = useNavigate();
+  const { items, total } = useCart();
 
   // dati del form dell'indirizzo di spedizione
   const [form, setForm] = useState({
@@ -18,30 +16,30 @@ export default function Checkout() {
     country: "",
   });
   const [error, setError] = useState("");
-  const [placing, setPlacing] = useState(false); // true mentre sto inviando l'ordine
+  const [redirecting, setRedirecting] = useState(false); // true mentre preparo il pagamento
 
   // aggiorna il campo del form che l'utente sta scrivendo
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  // invia l'ordine al backend
+  // chiedo al backend di creare una sessione di pagamento Stripe,
+  // poi mando il browser direttamente sulla pagina di Stripe per pagare
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    setPlacing(true);
+    setRedirecting(true);
     try {
-      await api.post("/orders", {
+      const res = await api.post("/payments/create-checkout-session", {
         items: items.map((i) => ({ bookId: i.bookId, quantity: i.quantity })),
         shippingAddress: form,
       });
-      // ordine creato, svuoto il carrello e vado alla pagina ordini
-      clearCart();
-      navigate("/orders");
+      // il carrello NON lo svuoto qui: lo svuoto solo dopo che Stripe
+      // conferma che il pagamento è andato davvero a buon fine
+      window.location.href = res.data.url;
     } catch (err) {
-      setError(err.response?.data?.message || "Could not place order");
-    } finally {
-      setPlacing(false);
+      setError(err.response?.data?.message || "Could not start checkout");
+      setRedirecting(false);
     }
   }
 
@@ -49,7 +47,7 @@ export default function Checkout() {
     <div className="mx-auto max-w-xl px-4 py-12">
       <h1 className="font-display text-3xl font-semibold text-ink">Checkout</h1>
       <p className="mt-2 text-sm text-ink/50">
-        This is a demo checkout — no real payment is processed.
+        Dopo aver inserito l'indirizzo, verrai portato alla pagina di pagamento sicura di Stripe.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
@@ -76,10 +74,10 @@ export default function Checkout() {
           </span>
           <button
             type="submit"
-            disabled={placing}
+            disabled={redirecting}
             className="focus-ring rounded-full bg-ink px-6 py-3 text-sm font-semibold text-parchment hover:bg-gold hover:text-ink disabled:opacity-50"
           >
-            {placing ? "Placing order…" : "Place order"}
+            {redirecting ? "Reindirizzamento…" : "Pay with card"}
           </button>
         </div>
       </form>
