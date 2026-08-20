@@ -130,15 +130,15 @@ export default function Admin() {
             className="focus-ring w-full rounded-lg border border-ink/15 px-4 py-2 text-sm file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-parchment"
           />
           <p className="mt-1 text-xs text-ink/40">
-            Scegli una foto dal tuo computer (funziona in locale). In produzione (es. Vercel) l'upload
-            da file non è disponibile: usa il campo qui sotto per incollare un URL esterno.
+            Scegli una foto dal tuo computer (max 2MB): viene salvata direttamente nel database,
+            funziona sia in locale sia online. Immagini più piccole rendono il sito più veloce.
           </p>
 
-          {/* campo alternativo: URL esterno, sempre disponibile anche dove l'upload non funziona */}
+          {/* campo alternativo: URL esterno, se preferisci non caricare il file */}
           <input
             type="text"
             name="coverImage"
-            placeholder="oppure incolla un URL immagine (https://...)"
+            placeholder="oppure incolla un URL immagine esterno (https://...)"
             value={form.coverImage}
             onChange={handleChange}
             className="focus-ring mt-2 w-full rounded-lg border border-ink/15 px-4 py-2 text-sm"

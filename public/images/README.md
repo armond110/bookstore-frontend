@@ -1,32 +1,30 @@
 # Cartella immagini
 
-Metti qui dentro le copertine dei libri (es. `il-mio-libro.jpg`).
+**Aggiornamento**: da quando l'upload nella pagina Admin salva le immagini
+direttamente dentro MongoDB (funziona sia in locale sia online, es. su
+Vercel), non hai più bisogno di mettere manualmente file qui dentro per
+usarli come copertine — basta scegliere la foto dal tuo computer nel form
+"Add book", e viene salvata da sola.
+
+Questa cartella resta utile solo se preferisci gestire a mano alcune
+immagini statiche (es. loghi, immagini decorative non legate a un libro
+specifico) invece di caricarle come copertina di un libro.
+
+## Se comunque vuoi usarla
 
 Tutto quello che c'è in `frontend/public/` viene servito automaticamente
-da Vite alla radice del sito. Quindi se metti un file qui:
+da Vite alla radice del sito. Quindi un file qui dentro:
 
 ```
-frontend/public/images/il-mio-libro.jpg
+frontend/public/images/esempio.jpg
 ```
 
-lo puoi richiamare nel form "Aggiungi libro" (pagina /admin) scrivendo
-nel campo "Cover Image URL" semplicemente:
+è raggiungibile all'indirizzo:
 
 ```
-/images/il-mio-libro.jpg
+/images/esempio.jpg
 ```
 
-(con lo slash all'inizio, senza "frontend/public").
-
-## Note
-
-- Formati consigliati: .jpg, .png, .webp
-- Dimensione consigliata: circa 400x600px (proporzione verticale, come una copertina)
-- Se non metti nessuna immagine, il libro mostra automaticamente un blocco
-  colorato al posto della copertina — non è un errore, è il comportamento
-  di fallback.
-- Quando fai la build (`npm run build`), questa cartella viene copiata così
-  com'è dentro `dist/`, quindi le immagini restano disponibili anche in produzione.
-- Se invece preferisci usare immagini già online (es. da un altro sito),
-  puoi incollare direttamente l'URL completo (https://...) nello stesso campo,
-  senza bisogno di mettere il file qui dentro.
+Puoi incollare questo percorso (o un URL esterno completo) nel campo
+"oppure incolla un URL immagine esterno" del form Admin, come alternativa
+al caricamento diretto.
