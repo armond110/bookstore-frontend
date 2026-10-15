@@ -17,6 +17,7 @@ import Shipping from "./pages/Shipping";
 import Returns from "./pages/Returns";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import { Analytics } from "@vercel/analytics/next"
 
 export default function App() {
   return (
@@ -83,6 +84,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <Analytics/>
     </div>
   );
 }
